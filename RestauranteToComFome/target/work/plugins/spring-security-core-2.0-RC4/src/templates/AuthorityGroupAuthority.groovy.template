@@ -1,0 +1,98 @@
+package ${packageName}
+
+import org.apache.commons.lang.builder.HashCodeBuilder
+
+class ${groupClassName}${roleClassName} implements Serializable {
+
+	private static final long serialVersionUID = 1
+
+	${groupClassName} ${groupClassProperty}
+	${roleClassName} ${roleClassProperty}
+
+	boolean equals(other) {
+		if (!(other instanceof ${groupClassName}${roleClassName})) {
+			return false
+		}
+
+		other.${roleClassProperty}?.id == ${roleClassProperty}?.id &&
+		other.${groupClassProperty}?.id == ${groupClassProperty}?.id
+	}
+
+	int hashCode() {
+		def builder = new HashCodeBuilder()
+		if (${groupClassProperty}) builder.append(${groupClassProperty}.id)
+		if (${roleClassProperty}) builder.append(${roleClassProperty}.id)
+		builder.toHashCode()
+	}
+
+	static ${groupClassName}${roleClassName} get(long ${groupClassProperty}Id, long ${roleClassProperty}Id) {
+		${groupClassName}${roleClassName}.where {
+			${groupClassProperty} == ${groupClassName}.load(${groupClassProperty}Id) &&
+			${roleClassProperty} == ${roleClassName}.load(${roleClassProperty}Id)
+		}.get()
+	}
+
+	static boolean exists(long ${groupClassProperty}Id, long ${roleClassProperty}Id) {
+		${groupClassName}${roleClassName}.where {
+			${groupClassProperty} == ${groupClassName}.load(${groupClassProperty}Id) &&
+			${roleClassProperty} == ${roleClassName}.load(${roleClassProperty}Id)
+		}.count() > 0
+	}
+
+	static ${groupClassName}${roleClassName} create(${groupClassName} ${groupClassProperty}, ${roleClassName} ${roleClassProperty}, boolean flush = false) {
+		def instance = new ${groupClassName}${roleClassName}(${groupClassProperty}: ${groupClassProperty}, ${roleClassProperty}: ${roleClassProperty})
+		instance.save(flush: flush, insert: true)
+		instance
+	}
+
+	static boolean remove(${groupClassName} rg, ${roleClassName} r, boolean flush = false) {
+		if (rg == null || r == null) return false
+
+		int rowCount = ${groupClassName}${roleClassName}.where {
+			${groupClassProperty} == ${groupClassName}.load(rg.id) &&
+			${roleClassProperty} == ${roleClassName}.load(r.id)
+		}.deleteAll()
+
+		if (flush) { ${groupClassName}${roleClassName}.withSession { it.flush() } }
+
+		rowCount > 0
+	}
+
+	static void removeAll(${roleClassName} r, boolean flush = false) {
+		if (r == null) return
+
+		${groupClassName}${roleClassName}.where {
+			${roleClassProperty} == ${roleClassName}.load(r.id)
+		}.deleteAll()
+
+		if (flush) { ${groupClassName}${roleClassName}.withSession { it.flush() } }
+	}
+
+	static void removeAll(${groupClassName} rg, boolean flush = false) {
+		if (rg == null) return
+
+		${groupClassName}${roleClassName}.where {
+			${groupClassProperty} == ${groupClassName}.load(rg.id)
+		}.deleteAll()
+
+		if (flush) { ${groupClassName}${roleClassName}.withSession { it.flush() } }
+	}
+
+	static constraints = {
+		${roleClassProperty} validator: { ${roleClassName} r, ${groupClassName}${roleClassName} rg ->
+			if (rg.${groupClassProperty} == null) return
+			boolean existing = false
+			${groupClassName}${roleClassName}.withNewSession {
+				existing = ${groupClassName}${roleClassName}.exists(rg.${groupClassProperty}.id, r.id)
+			}
+			if (existing) {
+				return 'roleGroup.exists'
+			}
+		}
+	}
+
+	static mapping = {
+		id composite: ['${groupClassProperty}', '${roleClassProperty}']
+		version false
+	}
+}
