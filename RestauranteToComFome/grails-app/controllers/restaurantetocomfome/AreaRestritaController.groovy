@@ -1,10 +1,14 @@
 package restaurantetocomfome
 
+import comum.Permissao;
+
+import grails.converters.JSON;
+
 class AreaRestritaController {
 
 	def springSecurityService
 	
-    def index() { 
+    def index() {
 		
 	}
 	

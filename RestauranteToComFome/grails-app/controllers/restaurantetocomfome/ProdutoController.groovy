@@ -1,7 +1,7 @@
 package restaurantetocomfome
 
 class ProdutoController {
-
+	
     def index() { 
 		
 		def lista = Produto.list()		

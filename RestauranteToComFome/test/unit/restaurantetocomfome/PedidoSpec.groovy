@@ -1,6 +1,8 @@
 package restaurantetocomfome
 
+import comum.Permissao;
 import grails.test.mixin.TestFor
+import grails.test.mixin.Mock
 import spock.lang.Specification
 
 /**
@@ -10,11 +12,13 @@ import spock.lang.Specification
 class PedidoSpec extends Specification {
 
     def setup() {
+		
     }
 
     def cleanup() {
     }
 
     void "test something"() {
+		
     }
 }

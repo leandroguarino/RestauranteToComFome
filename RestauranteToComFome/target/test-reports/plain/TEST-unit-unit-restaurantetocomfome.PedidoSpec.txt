@@ -1,0 +1,25 @@
+Testsuite: restaurantetocomfome.PedidoSpec
+Tests run: 1, Failures: 1, Errors: 0, Time elapsed: 3,885 sec
+------------- Standard Output ---------------
+--Output from test something--
+------------- ---------------- ---------------
+------------- Standard Error -----------------
+--Output from test something--
+------------- ---------------- ---------------
+
+Testcase: test something took 3,744 sec
+	FAILED
+Condition not satisfied:
+
+Permissao.count() == 1
+          |       |
+          2       false
+
+junit.framework.AssertionFailedError: Condition not satisfied:
+
+Permissao.count() == 1
+          |       |
+          2       false
+
+	at restaurantetocomfome.PedidoSpec.test something(PedidoSpec.groovy:29)
+
