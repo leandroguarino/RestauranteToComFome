@@ -7,7 +7,7 @@ class VendaController {
     def vendaService
 
     def index() {
-        def produtos = Produto.list().subList(0,5)
+        def produtos = Produto.list()
         render(model: [produtos: produtos], view: "index")
     }
 
